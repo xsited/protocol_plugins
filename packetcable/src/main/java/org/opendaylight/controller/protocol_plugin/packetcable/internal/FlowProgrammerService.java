@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 public class FlowProgrammerService implements IPluginInFlowProgrammerService
 {
     protected static final Logger logger = LoggerFactory
-                                           .getLogger(FlowConverter.class);
+                                           .getLogger(FlowProgrammerService.class);
     void init() {
         logger.trace("FlowProgrammerService: init");
     }
