@@ -6,7 +6,7 @@
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.opendaylight.controller.protocol_plugins.packetcable.internal;
+package org.opendaylight.controller.protocol_plugin.packetcable.internal;
 
 import org.opendaylight.controller.sal.flowprogrammer.Flow;
 import org.opendaylight.controller.sal.flowprogrammer.IPluginInFlowProgrammerService;
@@ -14,15 +14,20 @@ import org.opendaylight.controller.sal.core.Node;
 import org.opendaylight.controller.sal.utils.Status;
 import org.opendaylight.controller.sal.utils.StatusCode;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
- * Represents the openflow plugin component in charge of programming the flows
+ * Represents the packetcable plugin component in charge of programming the flows
  * the flow programming and relay them to functional modules above SAL.
  */
 public class FlowProgrammerService implements IPluginInFlowProgrammerService
-  {
+{
+    protected static final Logger logger = LoggerFactory
+                                           .getLogger(FlowConverter.class);
     void init() {
+        logger.trace("FlowProgrammerService: init");
     }
 
     /**
@@ -32,6 +37,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      *
      */
     void destroy() {
+        logger.trace("FlowProgrammerService: destroy");
     }
 
     /**
@@ -40,6 +46,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      *
      */
     void start() {
+        logger.trace("FlowProgrammerService: start");
     }
 
     /**
@@ -49,6 +56,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      *
      */
     void stop() {
+        logger.trace("FlowProgrammerService: stop");
     }
 
 
@@ -59,7 +67,12 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param flow
      */
     public Status addFlow(Node node, Flow flow){
+        logger.trace("FlowProgrammerService: addFlow");
+        FlowConverter fc = new FlowConverter(flow);
+        fc.getServiceFlow();
+        fc.dump();
         return new Status(StatusCode.SUCCESS);
+
     }
 
     /**
@@ -69,6 +82,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param flow
      */
     public Status modifyFlow(Node node, Flow oldFlow, Flow newFlow){
+        logger.trace("FlowProgrammerService: modifyFlow");
         return new Status(StatusCode.SUCCESS);
     }
     /**
@@ -89,6 +103,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param rid
      */
     public Status addFlowAsync(Node node, Flow flow, long rid){
+        logger.trace("FlowProgrammerService: modifyFlow");
         return new Status(StatusCode.SUCCESS);
     }
 
@@ -100,6 +115,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param rid
      */
     public Status modifyFlowAsync(Node node, Flow oldFlow, Flow newFlow, long rid){
+        logger.trace("FlowProgrammerService: modifyFlowAsync");
         return new Status(StatusCode.SUCCESS);
     }
 
@@ -111,6 +127,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param rid
      */
     public Status removeFlowAsync(Node node, Flow flow, long rid){
+        logger.trace("FlowProgrammerService: removeFlowAsync");
         return new Status(StatusCode.SUCCESS);
     }
 
@@ -120,6 +137,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param node
      */
     public Status removeAllFlows(Node node){
+        logger.trace("FlowProgrammerService: removeAllFlows");
         return new Status(StatusCode.SUCCESS);
     }
 
@@ -130,6 +148,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param node
      */
     public Status syncSendBarrierMessage(Node node){
+        logger.trace("FlowProgrammerService: syncSendBarrierMessage");
         return new Status(StatusCode.SUCCESS);
     }
 
@@ -139,6 +158,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param node
      */
     public Status asyncSendBarrierMessage(Node node){
+        logger.trace("FlowProgrammerService: asyncSendBarrierMessage");
         return new Status(StatusCode.SUCCESS);
     }
   }

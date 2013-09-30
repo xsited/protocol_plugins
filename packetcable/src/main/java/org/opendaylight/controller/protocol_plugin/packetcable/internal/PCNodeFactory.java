@@ -1,4 +1,4 @@
-package org.opendaylight.controller.protocol_plugins.packetcable.internal;
+package org.opendaylight.controller.protocol_plugin.packetcable.internal;
 
 import org.opendaylight.controller.sal.core.ConstructionException;
 import org.opendaylight.controller.sal.utils.INodeFactory;

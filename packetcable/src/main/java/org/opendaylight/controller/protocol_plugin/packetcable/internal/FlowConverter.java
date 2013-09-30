@@ -6,7 +6,7 @@
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
 
-package org.opendaylight.controller.protocol_plugin.openflow.internal;
+package org.opendaylight.controller.protocol_plugin.packetcable.internal;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
@@ -111,7 +111,8 @@ public class FlowConverter {
     }
 
 
-    public void dump(Flow flow) {
+    // public void dump(Flow flow) {
+    public void dump() {
         logger.trace("SAL Flow IPv6 : {}", flow.isIPv6());
         logger.trace("SAL Flow Actions : {}", flow.getActions());
         logger.trace("SAL Flow Priority: {}", flow.getPriority());

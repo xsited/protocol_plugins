@@ -36,10 +36,10 @@
               org.osgi.framework
             </Import-Package>
             <Export-Package>
-              org.opendaylight.controller.protocol_plugins.packetcable.internal
+              org.opendaylight.controller.protocol_plugin.packetcable.internal
             </Export-Package>
             <Bundle-Activator>
-              org.opendaylight.controller.protocol_plugins.packetcable.internal.Activator
+              org.opendaylight.controller.protocol_plugin.packetcable.internal.Activator
             </Bundle-Activator>
           </instructions>
           <manifestLocation>${project.basedir}/META-INF</manifestLocation>

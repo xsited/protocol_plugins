@@ -1,4 +1,4 @@
-package org.opendaylight.controller.protocol_plugins.packetcable.internal;
+package org.opendaylight.controller.protocol_plugin.packetcable.internal;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
