@@ -113,94 +113,94 @@ public class FlowConverter {
 
     // public void dump(Flow flow) {
     public void dump() {
-        logger.trace("SAL Flow IPv6 : {}", flow.isIPv6());
-        logger.trace("SAL Flow Actions : {}", flow.getActions());
-        logger.trace("SAL Flow Priority: {}", flow.getPriority());
-        logger.trace("SAL Flow Id: {}", flow.getId());
-        logger.trace("SAL Flow Idle Timeout: {}", flow.getIdleTimeout());
-        logger.trace("SAL Flow Hard Timeout: {}", flow.getHardTimeout());
+        logger.info("SAL Flow IPv6 : {}", flow.isIPv6());
+        logger.info("SAL Flow Actions : {}", flow.getActions());
+        logger.info("SAL Flow Priority: {}", flow.getPriority());
+        logger.info("SAL Flow Id: {}", flow.getId());
+        logger.info("SAL Flow Idle Timeout: {}", flow.getIdleTimeout());
+        logger.info("SAL Flow Hard Timeout: {}", flow.getHardTimeout());
     }
 
-    public void dumpAction(Flow flow) {
-        logger.trace("SAL Flow Actions:");
+    public void dumpAction() {
+        logger.info("SAL Flow Actions:");
         Iterator<Action> actionIter = flow.getActions().iterator();
         while (actionIter.hasNext()) {
             Action action = actionIter.next();
             switch (action.getType()) {
             case DROP:
-                logger.trace("drop");
+                logger.info("drop");
                 break;
             case LOOPBACK:
-                logger.trace("loopback");
+                logger.info("loopback");
                 break;
             case FLOOD:
-                logger.trace("flood");
+                logger.info("flood");
                 break;
             case FLOOD_ALL:
-                logger.trace("floodAll");
+                logger.info("floodAll");
                 break;
             case CONTROLLER:
-                logger.trace("controller");
+                logger.info("controller");
                 break;
             case INTERFACE:
-                logger.trace("interface");
+                logger.info("interface");
                 break;
             case SW_PATH:
-                logger.trace("software path");
+                logger.info("software path");
                 break;
             case HW_PATH:
-                logger.trace("harware path");
+                logger.info("harware path");
                 break;
             case OUTPUT:
-                logger.trace("output");
+                logger.info("output");
                 break;
             case ENQUEUE:
-                logger.trace("enqueue");
+                logger.info("enqueue");
                 break;
             case SET_DL_SRC:
-                logger.trace("setDlSrc");
+                logger.info("setDlSrc");
                 break;
             case SET_DL_DST:
-                logger.trace("setDlDst");
+                logger.info("setDlDst");
                 break;
             case SET_VLAN_ID:
-                logger.trace("setVlan");
+                logger.info("setVlan");
                 break;
             case SET_VLAN_PCP:
-                logger.trace("setVlanPcp");
+                logger.info("setVlanPcp");
                 break;
             case SET_VLAN_CFI:
-                logger.trace("setVlanCif");
+                logger.info("setVlanCif");
                 break;
             case POP_VLAN:
-                logger.trace("stripVlan");
+                logger.info("stripVlan");
                 break;
             case PUSH_VLAN:
-                logger.trace("pushVlan");
+                logger.info("pushVlan");
                 break;
             case SET_DL_TYPE:
-                logger.trace("setDlType");
+                logger.info("setDlType");
                 break;
             case SET_NW_SRC:
-                logger.trace("setNwSrc");
+                logger.info("setNwSrc");
                 break;
             case SET_NW_DST:
-                logger.trace("setNwDst");
+                logger.info("setNwDst");
                 break;
             case SET_NW_TOS:
-                logger.trace("setNwTos");
+                logger.info("setNwTos");
                 break;
             case SET_TP_SRC:
-                logger.trace("setTpSrc");
+                logger.info("setTpSrc");
                 break;
             case SET_TP_DST:
-                logger.trace("setTpDst");
+                logger.info("setTpDst");
                 break;
             case SET_NEXT_HOP:
-                logger.trace("setNextHop");
+                logger.info("setNextHop");
                 break;
             default:
-                logger.trace("Unknown");
+                logger.info("Unknown");
                 break;
             }
         }
@@ -229,9 +229,9 @@ public class FlowConverter {
                                     ofMatch.setInputPort(port);
                                     wildcards &= ~OFMatch.OFPFW_IN_PORT;
                 */
-                logger.trace("Flow : In Port: {}", port);
+                logger.info("Flow : In Port: {}", port);
             } else {
-                logger.trace("Flow V6 : In Port: {}", port);
+                logger.info("Flow V6 : In Port: {}", port);
 //                    ((V6Match) ofMatch).setInputPort(port, (short) 0);
             }
         }
@@ -239,13 +239,13 @@ public class FlowConverter {
             byte[] srcMac = (byte[]) match.getField(MatchType.DL_SRC)
                             .getValue();
             if (!isIPv6) {
-                logger.trace("Flow : Data Layer Src MAC: {}", srcMac);
+                logger.info("Flow : Data Layer Src MAC: {}", srcMac);
                 /*
                             ofMatch.setDataLayerSource(srcMac.clone());
                             wildcards &= ~OFMatch.OFPFW_DL_SRC;
                 */
             } else {
-                logger.trace("Flow V6 : Data Layer Src MAC: {}", srcMac);
+                logger.info("Flow V6 : Data Layer Src MAC: {}", srcMac);
                 //   ((V6Match) ofMatch).setDataLayerSource(srcMac, null);
             }
         }
@@ -253,13 +253,13 @@ public class FlowConverter {
             byte[] dstMac = (byte[]) match.getField(MatchType.DL_DST)
                             .getValue();
             if (!isIPv6) {
-                logger.trace("Flow : Data Layer Dst MAC: {}", dstMac);
+                logger.info("Flow : Data Layer Dst MAC: {}", dstMac);
                 /*
                                     ofMatch.setDataLayerDestination(dstMac.clone());
                                     wildcards &= ~OFMatch.OFPFW_DL_DST;
                 */
             } else {
-                logger.trace("Flow V6 : Data Layer Dst MAC: {}", dstMac);
+                logger.info("Flow V6 : Data Layer Dst MAC: {}", dstMac);
 //                    ((V6Match) ofMatch).setDataLayerDestination(dstMac, null);
             }
         }
@@ -270,13 +270,13 @@ public class FlowConverter {
                 vlan = OFP_VLAN_NONE;
             }
             if (!isIPv6) {
-                logger.trace("Flow : Data Layer Vlan: {}", vlan);
+                logger.info("Flow : Data Layer Vlan: {}", vlan);
                 /*
                                     ofMatch.setDataLayerVirtualLan(vlan);
                                     wildcards &= ~OFMatch.OFPFW_DL_VLAN;
                 */
             } else {
-                logger.trace("Flow V6 : Data Layer Vlan: {}", vlan);
+                logger.info("Flow V6 : Data Layer Vlan: {}", vlan);
 //                    ((V6Match) ofMatch).setDataLayerVirtualLan(vlan, (short) 0);
             }
         }
@@ -284,13 +284,13 @@ public class FlowConverter {
             byte vlanPr = (Byte) match.getField(MatchType.DL_VLAN_PR)
                           .getValue();
             if (!isIPv6) {
-                logger.trace("Flow : Data Layer Vlan Priority: {}", vlanPr);
+                logger.info("Flow : Data Layer Vlan Priority: {}", vlanPr);
                 /*
                                     ofMatch.setDataLayerVirtualLanPriorityCodePoint(vlanPr);
                                     wildcards &= ~OFMatch.OFPFW_DL_VLAN_PCP;
                 */
             } else {
-                logger.trace("Flow : Data Layer Vlan Priority: {}", vlanPr);
+                logger.info("Flow : Data Layer Vlan Priority: {}", vlanPr);
                 /*
                                     ((V6Match) ofMatch)
                                             .setDataLayerVirtualLanPriorityCodePoint(vlanPr,
@@ -302,13 +302,13 @@ public class FlowConverter {
             short ethType = (Short) match.getField(MatchType.DL_TYPE)
                             .getValue();
             if (!isIPv6) {
-                logger.trace("Flow : Data Layer Eth Type: {}", ethType);
+                logger.info("Flow : Data Layer Eth Type: {}", ethType);
                 /*
                                     ofMatch.setDataLayerType(ethType);
                                     wildcards &= ~OFMatch.OFPFW_DL_TYPE;
                 */
             } else {
-                logger.trace("Flow V6: Data Layer Eth Type: {}", ethType);
+                logger.info("Flow V6: Data Layer Eth Type: {}", ethType);
 //                    ((V6Match) ofMatch).setDataLayerType(ethType, (short) 0);
             }
         }
@@ -320,29 +320,29 @@ public class FlowConverter {
             byte tos = (Byte) match.getField(MatchType.NW_TOS).getValue();
             byte dscp = (byte) (tos << 2);
             if (!isIPv6) {
-                logger.trace("Flow : Network TOS : {}", tos);
-                logger.trace("Flow : Network DSCP : {}", dscp);
+                logger.info("Flow : Network TOS : {}", tos);
+                logger.info("Flow : Network DSCP : {}", dscp);
                 /*
                                     ofMatch.setNetworkTypeOfService(dscp);
                                     wildcards &= ~OFMatch.OFPFW_NW_TOS;
                 */
             } else {
 //                    ((V6Match) ofMatch).setNetworkTypeOfService(dscp, (byte) 0);
-                logger.trace("Flow V6 : Network TOS : {}", tos);
-                logger.trace("Flow V6 : Network DSCP : {}", dscp);
+                logger.info("Flow V6 : Network TOS : {}", tos);
+                logger.info("Flow V6 : Network DSCP : {}", dscp);
             }
         }
         if (match.isPresent(MatchType.NW_PROTO)) {
             byte proto = (Byte) match.getField(MatchType.NW_PROTO)
                          .getValue();
             if (!isIPv6) {
-                logger.trace("Flow : Network Protocol : {}", proto);
+                logger.info("Flow : Network Protocol : {}", proto);
                 /*
                                     ofMatch.setNetworkProtocol(proto);
                                     wildcards &= ~OFMatch.OFPFW_NW_PROTO;
                 */
             } else {
-                logger.trace("Flow V6 : Network Protocol : {}", proto);
+                logger.info("Flow V6 : Network Protocol : {}", proto);
 //                    ((V6Match) ofMatch).setNetworkProtocol(proto, (byte) 0);
             }
         }
@@ -352,12 +352,12 @@ public class FlowConverter {
             if (!isIPv6) {
                 // ofMatch.setNetworkSource(NetUtils.byteArray4ToInt(address.getAddress()));
                 int maskLength = (mask == null) ? 32 : NetUtils.getSubnetMaskLength(mask);
-                logger.trace("Flow : Network Address Src : {} Mask : {}", address, mask);
+                logger.info("Flow : Network Address Src : {} Mask : {}", address, mask);
 
 //                    wildcards = (wildcards & ~OFMatch.OFPFW_NW_SRC_MASK) | ((32 - maskLength) << OFMatch.OFPFW_NW_SRC_SHIFT);
             } else {
 //                    ((V6Match) ofMatch).setNetworkSource(address, mask);
-                logger.trace("Flow V6 : Network Address Src : {} Mask : {}", address, mask);
+                logger.info("Flow V6 : Network Address Src : {} Mask : {}", address, mask);
             }
         }
         if (match.isPresent(MatchType.NW_DST)) {
@@ -366,24 +366,24 @@ public class FlowConverter {
             if (!isIPv6) {
                 // ofMatch.setNetworkDestination(NetUtils.byteArray4ToInt(address.getAddress()));
                 int maskLength = (mask == null) ? 32 : NetUtils.getSubnetMaskLength(mask);
-                logger.trace("Flow : Network Address Dst : {} Mask : {}", address, mask);
+                logger.info("Flow : Network Address Dst : {} Mask : {}", address, mask);
                 //wildcards = (wildcards & ~OFMatch.OFPFW_NW_DST_MASK) | ((32 - maskLength) << OFMatch.OFPFW_NW_DST_SHIFT);
             } else {
                 //((V6Match) ofMatch).setNetworkDestination(address, mask);
-                logger.trace("Flow V6 : Network Address Dst : {} Mask : {}", address, mask);
+                logger.info("Flow V6 : Network Address Dst : {} Mask : {}", address, mask);
             }
         }
         if (match.isPresent(MatchType.TP_SRC)) {
             short port = (Short) match.getField(MatchType.TP_SRC)
                          .getValue();
             if (!isIPv6) {
-                logger.trace("Flow : Network Transport Port Src : {} ", port);
+                logger.info("Flow : Network Transport Port Src : {} ", port);
                 /*
                                     ofMatch.setTransportSource(port);
                                     wildcards &= ~OFMatch.OFPFW_TP_SRC;
                 */
             } else {
-                logger.trace("Flow V6 : Network Transport Port Src : {} ", port);
+                logger.info("Flow V6 : Network Transport Port Src : {} ", port);
 //                    ((V6Match) ofMatch).setTransportSource(port, (short) 0);
             }
         }
@@ -391,7 +391,7 @@ public class FlowConverter {
             short port = (Short) match.getField(MatchType.TP_DST)
                          .getValue();
             if (!isIPv6) {
-                logger.trace("Flow : Network Transport Port Dst : {} ", port);
+                logger.info("Flow : Network Transport Port Dst : {} ", port);
                 /*
                                     ofMatch.setTransportDestination(port);
                                     wildcards &= ~OFMatch.OFPFW_TP_DST;
@@ -401,7 +401,7 @@ public class FlowConverter {
                                     ((V6Match) ofMatch)
                                             .setTransportDestination(port, (short) 0);
                 */
-                logger.trace("Flow V6: Network Transport Port Dst : {} ", port);
+                logger.info("Flow V6: Network Transport Port Dst : {} ", port);
             }
         }
 
@@ -409,7 +409,7 @@ public class FlowConverter {
 //                ofMatch.setWildcards(U32.t(Long.valueOf(wildcards)));
         }
         // }
-        logger.trace("SAL Match: {} ", flow.getMatch());
+        logger.info("SAL Match: {} ", flow.getMatch());
 //   return ofMatch;
     }
 
@@ -568,7 +568,7 @@ public class FlowConverter {
                 }
             }
         }
-        logger.trace("SAL Actions: {} Openflow Actions: {}", flow.getActions(),
+        logger.info("SAL Actions: {} Openflow Actions: {}", flow.getActions(),
                 actionsList);
         return actionsList;
     }
@@ -640,9 +640,9 @@ public class FlowConverter {
                 }
             }
         }
-        logger.trace("Openflow Match: {} Openflow Actions: {}", ofMatch,
+        logger.info("Openflow Match: {} Openflow Actions: {}", ofMatch,
                 actionsList);
-        logger.trace("Openflow Mod Message: {}", fm);
+        logger.info("Openflow Mod Message: {}", fm);
         return fm;
     }
      */
@@ -902,9 +902,9 @@ public class FlowConverter {
               // Create Flow
               flow = new Flow(salMatch, salActionList);
           }
-          logger.trace("Openflow Match: {} Openflow Actions: {}", ofMatch,
+          logger.info("Openflow Match: {} Openflow Actions: {}", ofMatch,
                   actionsList);
-          logger.trace("SAL Flow: {}", flow);
+          logger.info("SAL Flow: {}", flow);
           return flow;
       }
 

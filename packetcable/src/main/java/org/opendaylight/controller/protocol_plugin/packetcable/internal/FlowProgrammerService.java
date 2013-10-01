@@ -27,7 +27,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
     protected static final Logger logger = LoggerFactory
                                            .getLogger(FlowProgrammerService.class);
     void init() {
-        logger.trace("FlowProgrammerService: init");
+        logger.info("FlowProgrammerService: init");
     }
 
     /**
@@ -37,7 +37,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      *
      */
     void destroy() {
-        logger.trace("FlowProgrammerService: destroy");
+        logger.info("FlowProgrammerService: destroy");
     }
 
     /**
@@ -46,7 +46,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      *
      */
     void start() {
-        logger.trace("FlowProgrammerService: start");
+        logger.info("FlowProgrammerService: start");
     }
 
     /**
@@ -56,7 +56,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      *
      */
     void stop() {
-        logger.trace("FlowProgrammerService: stop");
+        logger.info("FlowProgrammerService: stop");
     }
 
 
@@ -67,10 +67,11 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param flow
      */
     public Status addFlow(Node node, Flow flow){
-        logger.trace("FlowProgrammerService: addFlow");
+        logger.info("FlowProgrammerService: addFlow");
         FlowConverter fc = new FlowConverter(flow);
-        fc.getServiceFlow();
         fc.dump();
+        fc.getServiceFlow();
+        fc.dumpAction();
         return new Status(StatusCode.SUCCESS);
 
     }
@@ -82,7 +83,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param flow
      */
     public Status modifyFlow(Node node, Flow oldFlow, Flow newFlow){
-        logger.trace("FlowProgrammerService: modifyFlow");
+        logger.info("FlowProgrammerService: modifyFlow");
         return new Status(StatusCode.SUCCESS);
     }
     /**
@@ -92,6 +93,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param flow
      */
     public Status removeFlow(Node node, Flow flow){
+        logger.info("FlowProgrammerService: removeFlow");
         return new Status(StatusCode.SUCCESS);
     }
 
@@ -103,7 +105,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param rid
      */
     public Status addFlowAsync(Node node, Flow flow, long rid){
-        logger.trace("FlowProgrammerService: modifyFlow");
+        logger.info("FlowProgrammerService: modifyFlow");
         return new Status(StatusCode.SUCCESS);
     }
 
@@ -115,7 +117,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param rid
      */
     public Status modifyFlowAsync(Node node, Flow oldFlow, Flow newFlow, long rid){
-        logger.trace("FlowProgrammerService: modifyFlowAsync");
+        logger.info("FlowProgrammerService: modifyFlowAsync");
         return new Status(StatusCode.SUCCESS);
     }
 
@@ -127,7 +129,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param rid
      */
     public Status removeFlowAsync(Node node, Flow flow, long rid){
-        logger.trace("FlowProgrammerService: removeFlowAsync");
+        logger.info("FlowProgrammerService: removeFlowAsync");
         return new Status(StatusCode.SUCCESS);
     }
 
@@ -137,7 +139,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param node
      */
     public Status removeAllFlows(Node node){
-        logger.trace("FlowProgrammerService: removeAllFlows");
+        logger.info("FlowProgrammerService: removeAllFlows");
         return new Status(StatusCode.SUCCESS);
     }
 
@@ -148,7 +150,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param node
      */
     public Status syncSendBarrierMessage(Node node){
-        logger.trace("FlowProgrammerService: syncSendBarrierMessage");
+        logger.info("FlowProgrammerService: syncSendBarrierMessage");
         return new Status(StatusCode.SUCCESS);
     }
 
@@ -158,7 +160,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param node
      */
     public Status asyncSendBarrierMessage(Node node){
-        logger.trace("FlowProgrammerService: asyncSendBarrierMessage");
+        logger.info("FlowProgrammerService: asyncSendBarrierMessage");
         return new Status(StatusCode.SUCCESS);
     }
   }

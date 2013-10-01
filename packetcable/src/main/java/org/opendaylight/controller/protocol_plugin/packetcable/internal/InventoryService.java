@@ -109,6 +109,7 @@ public class InventoryService implements IPluginInInventoryService {
             node = null;
         }
         nodeConnectorProps.put(nc, ncPropMap);
+/*
 
         try {
             node = new Node("PC", 3366);
@@ -127,7 +128,7 @@ public class InventoryService implements IPluginInInventoryService {
             node = null;
         }
         nodeConnectorProps.put(nc, ncPropMap);
-
+*/
     }
 
     private void setupNodeProps() {
@@ -154,7 +155,7 @@ public class InventoryService implements IPluginInInventoryService {
         }
 
         nodeProps.put(node, propMap);
-
+/*
         try {
             node = new Node("PC", 3366);
         } catch (ConstructionException e) {
@@ -169,6 +170,7 @@ public class InventoryService implements IPluginInInventoryService {
         }
         nodeProps.put(node, propMap);
 
+*/
     }
 
     /**
