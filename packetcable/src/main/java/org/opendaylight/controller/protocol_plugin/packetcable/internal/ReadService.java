@@ -1,3 +1,7 @@
+/*
+ @header@
+ */
+
 package org.opendaylight.controller.protocol_plugin.packetcable.internal;
 
 import java.net.InetAddress;
