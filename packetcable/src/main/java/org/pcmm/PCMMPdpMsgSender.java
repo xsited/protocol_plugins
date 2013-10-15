@@ -182,6 +182,8 @@ public class PCMMPdpMsgSender {
                                   : _transactionID);
         trID.setTransactionIdentifier(_transactionID);
 
+        gate.setTransactionID(trID);
+
 
         // new pcmm specific clientsi
         COPSClientSI clientSD = new COPSClientSI(COPSObjHeader.COPS_DEC, (byte) 4);

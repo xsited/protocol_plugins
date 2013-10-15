@@ -253,7 +253,7 @@ public class FlowConverter {
             eclassifier.setPriority(pri);
 
         int TrafficRate = 0;
-        if (pri == 128)
+        if (pri == 100)
             TrafficRate =   PCMMGlobalConfig.DefaultBestEffortTrafficRate;
         else
             TrafficRate =   PCMMGlobalConfig.DefaultLowBestEffortTrafficRate;
