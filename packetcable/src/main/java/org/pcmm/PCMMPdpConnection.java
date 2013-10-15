@@ -98,7 +98,7 @@ public class PCMMPdpConnection implements Runnable {
         _lastmessage = COPSHeader.COPS_OP_OPN;
         _managerMap = new Hashtable(20);
 
-        _kaTimer = 0;
+        _kaTimer = 120;
         _process = process;
     }
 
