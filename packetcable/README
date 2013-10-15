@@ -73,3 +73,18 @@ osgi> s | grep packetcable
 true
 osgi> 
 
+
+ACKNOWLEDGEMENTS AND CONTRIBUTIONS
+===================================  
+
+The project development lead from
+Thomas Kee (xsited@yahoo.com)
+
+The fantastic Java stylings and support from
+Riadh HAJ AMOR (rhadjamor@gmail.com)
+
+The COPS for Java foundation from
+Copyright (c) 2004 University of Murcia.  All rights reserved.
+For more information, please see <http://www.umu.euro6ix.org/>.
+Félix Jesús García Clemente  (fgarcia@dif.um.es)
+

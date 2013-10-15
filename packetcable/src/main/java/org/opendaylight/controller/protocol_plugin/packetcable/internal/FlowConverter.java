@@ -66,6 +66,31 @@ import org.openflow.protocol.action.OFActionVirtualLanPriorityCodePoint;
 import org.openflow.util.U16;
 import org.openflow.util.U32;
 */
+
+import org.pcmm.PCMMGlobalConfig;
+import org.pcmm.gates.IAMID;
+import org.pcmm.gates.IClassifier;
+import org.pcmm.gates.IExtendedClassifier;
+import org.pcmm.gates.IGateSpec;
+import org.pcmm.gates.IGateSpec.DSCPTOS;
+import org.pcmm.gates.IGateSpec.Direction;
+import org.pcmm.gates.IPCMMGate;
+import org.pcmm.gates.ISubscriberID;
+import org.pcmm.gates.ITrafficProfile;
+import org.pcmm.gates.ITransactionID;
+import org.pcmm.gates.IGateID;
+import org.pcmm.gates.impl.GateID;
+import org.pcmm.gates.impl.AMID;
+import org.pcmm.gates.impl.BestEffortService;
+import org.pcmm.gates.impl.Classifier;
+import org.pcmm.gates.impl.ExtendedClassifier;
+import org.pcmm.gates.impl.DOCSISServiceClassNameTrafficProfile;
+import org.pcmm.gates.impl.GateSpec;
+import org.pcmm.gates.impl.PCMMGateReq;
+import org.pcmm.gates.impl.SubscriberID;
+import org.pcmm.gates.impl.TransactionID;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -210,25 +235,90 @@ public class FlowConverter {
      * @return
      */
     // public OFMatch getOFMatch() {
-    public void getServiceFlow() {
-//        if (ofMatch == null) {
+    public IPCMMGate  getServiceFlow() {
+        IPCMMGate gate = new PCMMGateReq();
+        // ITransactionID trID = new TransactionID();
+
+        IAMID amid = new AMID();
+        ISubscriberID subscriberID = new SubscriberID();
+        IGateSpec gateSpec = new GateSpec();
+        IClassifier classifier = new Classifier();
+        IExtendedClassifier eclassifier = new ExtendedClassifier();
+        InetAddress defaultmask = null;
+
+        /* Constrain priority to  64 to 128 as per spec */
+        byte pri = (byte) (flow.getPriority() & 0xFFFF);
+        if ((pri < 64) || (pri > 128))
+            eclassifier.setPriority((byte) 64);
+        else
+            eclassifier.setPriority(pri);
+
+        int TrafficRate = 0;
+        if (pri == 128)
+            TrafficRate =   PCMMGlobalConfig.DefaultBestEffortTrafficRate;
+        else
+            TrafficRate =   PCMMGlobalConfig.DefaultLowBestEffortTrafficRate;
+
+        ITrafficProfile trafficProfile = new BestEffortService(
+            (byte) 7); //BestEffortService.DEFAULT_ENVELOP);
+        ((BestEffortService) trafficProfile).getAuthorizedEnvelop()
+        .setTrafficPriority(BestEffortService.DEFAULT_TRAFFIC_PRIORITY);
+        ((BestEffortService) trafficProfile).getAuthorizedEnvelop()
+        .setMaximumTrafficBurst(
+            BestEffortService.DEFAULT_MAX_TRAFFIC_BURST);
+        ((BestEffortService) trafficProfile).getAuthorizedEnvelop()
+        .setRequestTransmissionPolicy(
+            PCMMGlobalConfig.BETransmissionPolicy);
+        ((BestEffortService) trafficProfile).getAuthorizedEnvelop()
+        .setMaximumSustainedTrafficRate(
+            TrafficRate);
+
+        ((BestEffortService) trafficProfile).getReservedEnvelop()
+        .setTrafficPriority(BestEffortService.DEFAULT_TRAFFIC_PRIORITY);
+        ((BestEffortService) trafficProfile).getReservedEnvelop()
+        .setMaximumTrafficBurst(
+            BestEffortService.DEFAULT_MAX_TRAFFIC_BURST);
+        ((BestEffortService) trafficProfile).getReservedEnvelop()
+        .setRequestTransmissionPolicy(
+            PCMMGlobalConfig.BETransmissionPolicy);
+        ((BestEffortService) trafficProfile).getReservedEnvelop()
+        .setMaximumSustainedTrafficRate(
+            TrafficRate);
+
+
+        ((BestEffortService) trafficProfile).getCommittedEnvelop()
+        .setTrafficPriority(BestEffortService.DEFAULT_TRAFFIC_PRIORITY);
+        ((BestEffortService) trafficProfile).getCommittedEnvelop()
+        .setMaximumTrafficBurst(
+            BestEffortService.DEFAULT_MAX_TRAFFIC_BURST);
+        ((BestEffortService) trafficProfile).getCommittedEnvelop()
+        .setRequestTransmissionPolicy(
+            PCMMGlobalConfig.BETransmissionPolicy);
+        ((BestEffortService) trafficProfile).getCommittedEnvelop()
+        .setMaximumSustainedTrafficRate(
+            TrafficRate);
+
+
+        amid.setApplicationType((short) 1);
+        amid.setApplicationMgrTag((short) 1);
+        gateSpec.setDirection(Direction.UPSTREAM);
+        gateSpec.setDSCP_TOSOverwrite(DSCPTOS.OVERRIDE);
+        gateSpec.setTimerT1(PCMMGlobalConfig.GateT1);
+        gateSpec.setTimerT2(PCMMGlobalConfig.GateT2);
+        gateSpec.setTimerT3(PCMMGlobalConfig.GateT3);
+        gateSpec.setTimerT4(PCMMGlobalConfig.GateT4);
+
+
         Match match = flow.getMatch();
-//            ofMatch = (isIPv6) ? new V6Match() : new OFMatch();
 
 
-//           int wildcards = OFMatch.OFPFW_ALL;
         if (match.isPresent(MatchType.IN_PORT)) {
             short port = (Short) ((NodeConnector) match.getField(
                                       MatchType.IN_PORT).getValue()).getID();
             if (!isIPv6) {
-                /*
-                                    ofMatch.setInputPort(port);
-                                    wildcards &= ~OFMatch.OFPFW_IN_PORT;
-                */
                 logger.info("Flow : In Port: {}", port);
             } else {
                 logger.info("Flow V6 : In Port: {}", port);
-//                    ((V6Match) ofMatch).setInputPort(port, (short) 0);
             }
         }
         if (match.isPresent(MatchType.DL_SRC)) {
@@ -236,13 +326,8 @@ public class FlowConverter {
                             .getValue();
             if (!isIPv6) {
                 logger.info("Flow : Data Layer Src MAC: {}", srcMac);
-                /*
-                            ofMatch.setDataLayerSource(srcMac.clone());
-                            wildcards &= ~OFMatch.OFPFW_DL_SRC;
-                */
             } else {
                 logger.info("Flow V6 : Data Layer Src MAC: {}", srcMac);
-                //   ((V6Match) ofMatch).setDataLayerSource(srcMac, null);
             }
         }
         if (match.isPresent(MatchType.DL_DST)) {
@@ -250,13 +335,8 @@ public class FlowConverter {
                             .getValue();
             if (!isIPv6) {
                 logger.info("Flow : Data Layer Dst MAC: {}", dstMac);
-                /*
-                                    ofMatch.setDataLayerDestination(dstMac.clone());
-                                    wildcards &= ~OFMatch.OFPFW_DL_DST;
-                */
             } else {
                 logger.info("Flow V6 : Data Layer Dst MAC: {}", dstMac);
-//                    ((V6Match) ofMatch).setDataLayerDestination(dstMac, null);
             }
         }
         if (match.isPresent(MatchType.DL_VLAN)) {
@@ -267,13 +347,8 @@ public class FlowConverter {
             }
             if (!isIPv6) {
                 logger.info("Flow : Data Layer Vlan: {}", vlan);
-                /*
-                                    ofMatch.setDataLayerVirtualLan(vlan);
-                                    wildcards &= ~OFMatch.OFPFW_DL_VLAN;
-                */
             } else {
                 logger.info("Flow V6 : Data Layer Vlan: {}", vlan);
-//                    ((V6Match) ofMatch).setDataLayerVirtualLan(vlan, (short) 0);
             }
         }
         if (match.isPresent(MatchType.DL_VLAN_PR)) {
@@ -281,17 +356,8 @@ public class FlowConverter {
                           .getValue();
             if (!isIPv6) {
                 logger.info("Flow : Data Layer Vlan Priority: {}", vlanPr);
-                /*
-                                    ofMatch.setDataLayerVirtualLanPriorityCodePoint(vlanPr);
-                                    wildcards &= ~OFMatch.OFPFW_DL_VLAN_PCP;
-                */
             } else {
                 logger.info("Flow : Data Layer Vlan Priority: {}", vlanPr);
-                /*
-                                    ((V6Match) ofMatch)
-                                            .setDataLayerVirtualLanPriorityCodePoint(vlanPr,
-                                                    (byte) 0);
-                */
             }
         }
         if (match.isPresent(MatchType.DL_TYPE)) {
@@ -299,31 +365,19 @@ public class FlowConverter {
                             .getValue();
             if (!isIPv6) {
                 logger.info("Flow : Data Layer Eth Type: {}", ethType);
-                /*
-                                    ofMatch.setDataLayerType(ethType);
-                                    wildcards &= ~OFMatch.OFPFW_DL_TYPE;
-                */
             } else {
                 logger.info("Flow V6: Data Layer Eth Type: {}", ethType);
-//                    ((V6Match) ofMatch).setDataLayerType(ethType, (short) 0);
             }
         }
         if (match.isPresent(MatchType.NW_TOS)) {
-            /*
-             * OF 1.0 switch expects the TOS as the 6 msb in the byte. it is
-             * actually the DSCP field followed by a zero ECN
-             */
             byte tos = (Byte) match.getField(MatchType.NW_TOS).getValue();
             byte dscp = (byte) (tos << 2);
             if (!isIPv6) {
                 logger.info("Flow : Network TOS : {}", tos);
                 logger.info("Flow : Network DSCP : {}", dscp);
-                /*
-                                    ofMatch.setNetworkTypeOfService(dscp);
-                                    wildcards &= ~OFMatch.OFPFW_NW_TOS;
-                */
+                // XXX - hook me up
+                gateSpec.setDSCP_TOSOverwrite(DSCPTOS.OVERRIDE);
             } else {
-//                    ((V6Match) ofMatch).setNetworkTypeOfService(dscp, (byte) 0);
                 logger.info("Flow V6 : Network TOS : {}", tos);
                 logger.info("Flow V6 : Network DSCP : {}", dscp);
             }
@@ -333,39 +387,66 @@ public class FlowConverter {
                          .getValue();
             if (!isIPv6) {
                 logger.info("Flow : Network Protocol : {}", proto);
-                /*
-                                    ofMatch.setNetworkProtocol(proto);
-                                    wildcards &= ~OFMatch.OFPFW_NW_PROTO;
-                */
+                switch (proto) {
+                case 6:
+                    classifier.setProtocol(IClassifier.Protocol.TCP);
+                    break;
+                case 17:
+                    classifier.setProtocol(IClassifier.Protocol.UDP);
+                    break;
+                case 0:
+                default:
+                    classifier.setProtocol(IClassifier.Protocol.NONE);
+                    break;
+                }
             } else {
                 logger.info("Flow V6 : Network Protocol : {}", proto);
-//                    ((V6Match) ofMatch).setNetworkProtocol(proto, (byte) 0);
             }
         }
         if (match.isPresent(MatchType.NW_SRC)) {
             InetAddress address = (InetAddress) match.getField(MatchType.NW_SRC).getValue();
             InetAddress mask = (InetAddress) match.getField(MatchType.NW_SRC).getMask();
+
+            try {
+                defaultmask = InetAddress.getByName("0.0.0.0");
+            } catch (UnknownHostException unae) {
+                System.out.println("Error getByName" + unae.getMessage());
+            }
+
+
             if (!isIPv6) {
-                // ofMatch.setNetworkSource(NetUtils.byteArray4ToInt(address.getAddress()));
                 int maskLength = (mask == null) ? 32 : NetUtils.getSubnetMaskLength(mask);
                 logger.info("Flow : Network Address Src : {} Mask : {}", address, mask);
-
-//                    wildcards = (wildcards & ~OFMatch.OFPFW_NW_SRC_MASK) | ((32 - maskLength) << OFMatch.OFPFW_NW_SRC_SHIFT);
+                classifier.setSourceIPAddress(address);
+                if (mask == null)
+                    eclassifier.setIPSourceMask(defaultmask);
+                else
+                    eclassifier.setIPSourceMask(mask);
             } else {
-//                    ((V6Match) ofMatch).setNetworkSource(address, mask);
                 logger.info("Flow V6 : Network Address Src : {} Mask : {}", address, mask);
+
             }
         }
         if (match.isPresent(MatchType.NW_DST)) {
             InetAddress address = (InetAddress) match.getField(MatchType.NW_DST).getValue();
             InetAddress mask = (InetAddress) match.getField(MatchType.NW_DST).getMask();
+            // InetAddress defaultmask;
+            try {
+                defaultmask = InetAddress.getByName("0.0.0.0");
+            } catch (UnknownHostException unae) {
+                System.out.println("Error getByName" + unae.getMessage());
+            }
+
             if (!isIPv6) {
-                // ofMatch.setNetworkDestination(NetUtils.byteArray4ToInt(address.getAddress()));
                 int maskLength = (mask == null) ? 32 : NetUtils.getSubnetMaskLength(mask);
                 logger.info("Flow : Network Address Dst : {} Mask : {}", address, mask);
-                //wildcards = (wildcards & ~OFMatch.OFPFW_NW_DST_MASK) | ((32 - maskLength) << OFMatch.OFPFW_NW_DST_SHIFT);
+                classifier.setDestinationIPAddress(address);
+                if (mask == null)
+                    eclassifier.setIPDestinationMask(defaultmask);
+                else
+                    eclassifier.setIPDestinationMask(mask);
+
             } else {
-                //((V6Match) ofMatch).setNetworkDestination(address, mask);
                 logger.info("Flow V6 : Network Address Dst : {} Mask : {}", address, mask);
             }
         }
@@ -374,13 +455,11 @@ public class FlowConverter {
                          .getValue();
             if (!isIPv6) {
                 logger.info("Flow : Network Transport Port Src : {} ", port);
-                /*
-                                    ofMatch.setTransportSource(port);
-                                    wildcards &= ~OFMatch.OFPFW_TP_SRC;
-                */
+                eclassifier.setSourcePortStart(port);
+                eclassifier.setSourcePortEnd(port);
+
             } else {
                 logger.info("Flow V6 : Network Transport Port Src : {} ", port);
-//                    ((V6Match) ofMatch).setTransportSource(port, (short) 0);
             }
         }
         if (match.isPresent(MatchType.TP_DST)) {
@@ -388,25 +467,26 @@ public class FlowConverter {
                          .getValue();
             if (!isIPv6) {
                 logger.info("Flow : Network Transport Port Dst : {} ", port);
-                /*
-                                    ofMatch.setTransportDestination(port);
-                                    wildcards &= ~OFMatch.OFPFW_TP_DST;
-                */
+                eclassifier.setDestinationPortStart(port);
+                eclassifier.setDestinationPortEnd(port);
             } else {
-                /*
-                                    ((V6Match) ofMatch)
-                                            .setTransportDestination(port, (short) 0);
-                */
                 logger.info("Flow V6: Network Transport Port Dst : {} ", port);
             }
         }
 
         if (!isIPv6) {
-//                ofMatch.setWildcards(U32.t(Long.valueOf(wildcards)));
         }
-        // }
         logger.info("SAL Match: {} ", flow.getMatch());
-//   return ofMatch;
+        eclassifier.setAction((byte) 0x00);
+        eclassifier.setActivationState((byte) 0x01);
+        //gate.setTransactionID(trID);
+        gate.setAMID(amid);
+        gate.setSubscriberID(subscriberID);
+        gate.setGateSpec(gateSpec);
+        gate.setTrafficProfile(trafficProfile);
+        gate.setClassifier(eclassifier);
+
+        return gate;
     }
 
     /**

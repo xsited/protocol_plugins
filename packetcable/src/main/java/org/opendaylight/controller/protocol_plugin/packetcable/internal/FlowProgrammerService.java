@@ -13,6 +13,15 @@ import org.opendaylight.controller.sal.utils.StatusCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.umu.cops.prpdp.COPSPdpException;
+import org.pcmm.gates.IPCMMGate;
+import org.pcmm.PCMMDef;
+import org.pcmm.PCMMGlobalConfig;
+import org.pcmm.PCMMPdpMsgSender;
+import org.pcmm.PCMMPdpDataProcess;
+import org.pcmm.PCMMPdpAgent;
+
+
 
 /**
  * Represents the packetcable plugin component in charge of programming the flows
@@ -20,10 +29,16 @@ import org.slf4j.LoggerFactory;
  */
 public class FlowProgrammerService implements IPluginInFlowProgrammerService
 {
+    protected PCMMPdpDataProcess process;
+    protected PCMMPdpAgent pcmm_pdp;
+    protected PCMMPdpMsgSender pcmm_sender;
+
+
     protected static final Logger logger = LoggerFactory
                                            .getLogger(FlowProgrammerService.class);
     void init() {
         logger.info("FlowProgrammerService: init");
+        pcmm_pdp = new PCMMPdpAgent(PCMMDef.C_PCMM, process);
     }
 
     /**
@@ -43,6 +58,13 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      */
     void start() {
         logger.info("FlowProgrammerService: start");
+        try  {
+            logger.info("Open connection to CMTS");
+            pcmm_pdp.connect( PCMMGlobalConfig.DefaultCMTS, 3918 );
+            pcmm_sender = new PCMMPdpMsgSender (PCMMDef.C_PCMM, pcmm_pdp.getClientHandle(), pcmm_pdp.getSocket());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -66,10 +88,16 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
         logger.info("FlowProgrammerService: addFlow");
         FlowConverter fc = new FlowConverter(flow);
         fc.dump();
-        fc.getServiceFlow();
+        IPCMMGate gate = fc.getServiceFlow();
         fc.dumpAction();
+        try {
+            logger.info("sendGateSet to CMTS");
+            pcmm_sender.sendGateSet(gate);
+        } catch (COPSPdpException e) {
+            logger.error("Failed to sendGateSet, reason: " + e.getMessage());
+            return new Status(StatusCode.INTERNALERROR, "Failed to sendGateSet to CMTS");
+        }
         return new Status(StatusCode.SUCCESS);
-
     }
 
     /**
@@ -90,6 +118,15 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      */
     public Status removeFlow(Node node, Flow flow){
         logger.info("FlowProgrammerService: removeFlow");
+        if ( PCMMGlobalConfig.getGateID1()  != 0 ) {
+            logger.info("Remove Flow " + PCMMGlobalConfig.getGateID1() );
+            try {
+                pcmm_sender.sendGateDelete( PCMMGlobalConfig.getGateID1() );
+            } catch (COPSPdpException e) {
+                logger.error("Failed to sendGateDelete, reason: " + e.getMessage());
+                return new Status(StatusCode.INTERNALERROR, "Failed to sendGateDelete to CMTS");
+            }
+        }
         return new Status(StatusCode.SUCCESS);
     }
 
@@ -101,7 +138,7 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      * @param rid
      */
     public Status addFlowAsync(Node node, Flow flow, long rid){
-        logger.info("FlowProgrammerService: modifyFlow");
+        logger.info("FlowProgrammerService: addFlowAsync");
         return new Status(StatusCode.SUCCESS);
     }
 
