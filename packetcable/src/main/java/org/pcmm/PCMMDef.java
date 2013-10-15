@@ -1,3 +1,7 @@
+/**
+ @header@
+ */
+
 package org.pcmm;
 
 import org.umu.cops.common.COPS_def;

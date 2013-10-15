@@ -248,8 +248,6 @@ public class PCMMPdpMsgSender {
         IExtendedClassifier eclassifier = new ExtendedClassifier();
         int TrafficRate = 0;
 
-        // XXX check if other values should be provided
-        //
         if (num == 1)
             TrafficRate =   PCMMGlobalConfig.DefaultBestEffortTrafficRate;
         else

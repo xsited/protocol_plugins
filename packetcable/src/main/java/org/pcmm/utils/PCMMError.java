@@ -1,3 +1,8 @@
+/**
+ @header@
+ */
+
+
 package org.pcmm.utils;
 
 public class PCMMError extends Exception {

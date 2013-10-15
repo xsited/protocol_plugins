@@ -1,11 +1,11 @@
 /**
- *
+ @header@
  */
 package org.pcmm.gates.impl;
 
 import java.util.Arrays;
 
-import org.junit.Assert;
+// import org.junit.Assert;
 import org.pcmm.base.impl.PCMMBaseObject;
 import org.pcmm.gates.ITrafficProfile;
 import org.umu.cops.stack.COPSData;

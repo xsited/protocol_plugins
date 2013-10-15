@@ -1,3 +1,7 @@
+/**
+ @header@
+ */
+
 package org.pcmm.base;
 
 import java.io.IOException;

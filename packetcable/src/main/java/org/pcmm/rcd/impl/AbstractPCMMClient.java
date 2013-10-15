@@ -1,5 +1,5 @@
 /**
- *
+ @header@
  */
 package org.pcmm.rcd.impl;
 
@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.junit.Assert;
+// import org.junit.Assert;
 import org.pcmm.objects.MMVersionInfo;
 import org.pcmm.rcd.IPCMMClient;
 import org.umu.cops.stack.COPSException;
@@ -45,8 +45,10 @@ public class AbstractPCMMClient implements IPCMMClient {
      * @see pcmm.rcd.IPCMMClient#sendRequest(pcmm.messages.IMessage)
      */
     public void sendRequest(COPSMsg requestMessage) {
+	/** XXX
         Assert.assertNotNull("Client is not connected", isConnected());
         Assert.assertNotNull("Message is Null", requestMessage);
+	*/
         try {
             // logger.info("Sending message type : " +
             // requestMessage.getHeader());
@@ -64,7 +66,9 @@ public class AbstractPCMMClient implements IPCMMClient {
      * @see org.pcmm.rcd.IPCMMClient#readMessage()
      */
     public COPSMsg readMessage() {
+	/** XXX
         Assert.assertNotNull("Client is not connected", isConnected());
+	*/
         try {
             COPSMsg recvdMsg = COPSTransceiver.receiveMsg(getSocket());
             // logger.info("received message : " + recvdMsg.getHeader());

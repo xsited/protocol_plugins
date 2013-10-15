@@ -1,4 +1,5 @@
-/*
+/**
+ @header@
  */
 
 package org.pcmm;
@@ -42,6 +43,8 @@ public class PCMMPdpAgent extends COPSPdpAgent {
     /** Well-known port for PCMM */
     public static final int WELL_KNOWN_PDP_PORT = 3918;
 
+    private COPSPepId _pepId;
+    private String _pepIdString;
     /**
      * PEP host name
      */
@@ -218,7 +221,7 @@ public class PCMMPdpAgent extends COPSPdpAgent {
 
             throw new COPSException("Mandatory COPS object missing (PEPId)");
         }
-
+	setPepId(pepId);
         // Support
         if ((cMsg.getClientSI() != null) ) {
             _mminfo = new MMVersionInfo(cMsg
@@ -379,6 +382,35 @@ public class PCMMPdpAgent extends COPSPdpAgent {
       */
     public COPSHandle getClientHandle() {
         return _handle;
+    }
+
+    /**
+      * Gets the PepId
+      * @return   <tt>COPSPepId</tt>
+      */
+    public COPSPepId getPepId() {
+        return _pepId;
+    }
+
+    public String getPepIdString() {
+        return _pepIdString;
+    }
+
+    /**
+      * Sets the PepId
+      * @param   <tt>COPSPepId</tt>
+      */
+    public void setPepId(COPSPepId pepId) {
+        _pepId = pepId; 
+        _pepIdString = pepId.getData().str(); 
+     }
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.pcmm.rcd.IPCMMClient#isConnected()
+     */
+    public boolean isConnected() {
+        return socket != null && socket.isConnected();
     }
 
 

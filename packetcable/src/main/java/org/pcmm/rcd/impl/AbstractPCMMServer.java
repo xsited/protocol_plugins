@@ -1,5 +1,5 @@
 /**
- *
+ @header@
  */
 package org.pcmm.rcd.impl;
 
@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.junit.Assert;
+// import org.junit.Assert;
 import org.pcmm.messages.impl.MessageFactory;
 import org.pcmm.rcd.IPCMMServer;
 import org.pcmm.state.IState;
@@ -44,7 +44,7 @@ public abstract class AbstractPCMMServer implements IPCMMServer {
     }
 
     protected AbstractPCMMServer(int port) {
-        Assert.assertTrue(port >= 0 && port <= 65535);
+        // XXX - Assert.assertTrue(port >= 0 && port <= 65535);
         this.port = port;
         keepAlive = true;
         logger = Logger.getLogger(getClass().getName());
