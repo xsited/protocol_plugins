@@ -221,7 +221,7 @@ public class PCMMPdpAgent extends COPSPdpAgent {
 
             throw new COPSException("Mandatory COPS object missing (PEPId)");
         }
-	setPepId(pepId);
+        setPepId(pepId);
         // Support
         if ((cMsg.getClientSI() != null) ) {
             _mminfo = new MMVersionInfo(cMsg
@@ -401,8 +401,8 @@ public class PCMMPdpAgent extends COPSPdpAgent {
       * @param   <tt>COPSPepId</tt>
       */
     public void setPepId(COPSPepId pepId) {
-        _pepId = pepId; 
-        _pepIdString = pepId.getData().str(); 
+        _pepId = pepId;
+        _pepIdString = pepId.getData().str();
      }
     /*
      * (non-Javadoc)

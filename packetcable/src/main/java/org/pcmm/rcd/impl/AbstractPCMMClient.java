@@ -45,10 +45,10 @@ public class AbstractPCMMClient implements IPCMMClient {
      * @see pcmm.rcd.IPCMMClient#sendRequest(pcmm.messages.IMessage)
      */
     public void sendRequest(COPSMsg requestMessage) {
-	/** XXX
+        /** XXX
         Assert.assertNotNull("Client is not connected", isConnected());
         Assert.assertNotNull("Message is Null", requestMessage);
-	*/
+        */
         try {
             // logger.info("Sending message type : " +
             // requestMessage.getHeader());
@@ -66,9 +66,9 @@ public class AbstractPCMMClient implements IPCMMClient {
      * @see org.pcmm.rcd.IPCMMClient#readMessage()
      */
     public COPSMsg readMessage() {
-	/** XXX
+        /** XXX
         Assert.assertNotNull("Client is not connected", isConnected());
-	*/
+        */
         try {
             COPSMsg recvdMsg = COPSTransceiver.receiveMsg(getSocket());
             // logger.info("received message : " + recvdMsg.getHeader());
