@@ -33,8 +33,7 @@
               org.apache.commons.lang3.builder,
               org.apache.commons.lang3.tuple, org.apache.felix.dm,
               org.slf4j, org.eclipse.osgi.framework.console,
-              org.osgi.framework,
-              org.junit
+              org.osgi.framework
             </Import-Package>
             <Export-Package>
               org.opendaylight.controller.protocol_plugin.packetcable.internal
