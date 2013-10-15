@@ -118,6 +118,9 @@ public class FlowProgrammerService implements IPluginInFlowProgrammerService
      */
     public Status removeFlow(Node node, Flow flow){
         logger.info("FlowProgrammerService: removeFlow");
+        logger.info("FlowProgrammerService: removeFlow GateID1 " + PCMMGlobalConfig.getGateID1() );
+        logger.info("FlowProgrammerService: removeFlow GateID2 " + PCMMGlobalConfig.getGateID2() );
+        logger.info("FlowProgrammerService: removeFlow FlowID " + flow.getId() );
         if ( PCMMGlobalConfig.getGateID1()  != 0 ) {
             logger.info("Remove Flow " + PCMMGlobalConfig.getGateID1() );
             try {

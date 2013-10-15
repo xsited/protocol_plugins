@@ -315,71 +315,11 @@ public class PCMMPdpReqStateMan {
         Vector clientSIs = msg.getClientSI();
         COPSClientSI myclientSI = (COPSClientSI) msg.getClientSI().elementAt(0);
         byte[] data = Arrays.copyOfRange(myclientSI.getData().getData(), 0, myclientSI.getData().getData().length );
-        PCMMUtils.WriteBinaryDump("COPSReportClientSI", data);
+
+        // PCMMUtils.WriteBinaryDump("COPSReportClientSI", data);
+        System.out.println("PCMMGateReq Parse Gate Message");
         PCMMGateReq gateMsg = new PCMMGateReq(data);
 
-
-        /*
-         IGateID gateID;
-         IAMID iamid;
-         ISubscriberID subscriberID;
-         ITransactionID transactionID;
-         IPCError pcError;
-        COPSClientSI myclientSI = (COPSClientSI) msg.getClientSI().elementAt(0);
-              if (msg.getClientSI().size() > 0) {
-
-        }
-
-        byte[] data = Arrays.copyOfRange(myclientSI.getData().getData(), 0, myclientSI.getData().getData().length );
-        PCMMUtils.WriteBinaryDump("COPSReportClientSI", myclientSI.getData().getData());
-        byte[] temp;
-        short len, offset;
-        byte sNum, sType;
-        len = offset = 0;
-        sNum = sType = (byte) 0;
-        while (offset + 5 < data.length) {
-            System.out.println("buffer length :" + data.length + " offset: " + offset);
-            len = 0;
-            len |= ((short) data[offset]) << 8;
-            len |= ((short) data[offset + 1]) & 0xFF;
-            sNum = data[offset + 2];
-            sType = data[offset + 3];
-            System.out.println("Object : S-NUM=" + sNum + "  S-TYPE=" + sType + "  LEN=" + len);
-                // temp = Arrays.copyOfRange(data, offset, len);
-                temp = new byte[len];
-                    System.arraycopy(data, offset, temp, 0, len);
-
-            System.out.println("temp : temp.length = " + temp.length);
-            switch (sNum) {
-            case IGateID.SNUM:
-                // gateID = new GateID(Arrays.copyOfRange(data, offset, len));
-                gateID = new GateID(temp);
-                break;
-            case IAMID.SNUM:
-                //iamid= new AMID(Arrays.copyOfRange(data, offset, len));
-                iamid= new AMID(temp);
-                break;
-            case ISubscriberID.SNUM:
-                // subscriberID = new SubscriberID(Arrays.copyOfRange(data,offset, len));
-                subscriberID = new SubscriberID(temp);
-                break;
-            case ITransactionID.SNUM:
-                // transactionID = new TransactionID(Arrays.copyOfRange(data, offset, len));
-                transactionID = new TransactionID(temp);
-                break;
-            case IPCError.SNUM:
-                // transactionID = new TransactionID(Arrays.copyOfRange(data, offset, len));
-                pcError = new PCError(temp);
-             // System.out.println(pcError.getDescription(pcError.getErrorCode(), pcError.getErrorSubcode()));
-                break;
-            default:
-                System.out.println("unhandled Object skept : S-NUM=" + sNum
-                        + "  S-TYPE=" + sType + "  LEN=" + len);
-                break;
-            }
-                        offset += len;
-        }
-        */
         Hashtable repSIs = new Hashtable(40);
         String strobjprid = new String();
         for (Enumeration e = clientSIs.elements() ; e.hasMoreElements() ;) {
@@ -388,9 +328,11 @@ public class PCMMPdpReqStateMan {
             COPSPrObjBase obj = new COPSPrObjBase(clientSI.getData().getData());
             switch (obj.getSNum()) {
             case COPSPrObjBase.PR_PRID:
+                System.out.println("COPSPrObjBase.PR_PRID");
                 strobjprid = obj.getData().str();
                 break;
             case COPSPrObjBase.PR_EPD:
+                System.out.println("COPSPrObjBase.PR_EPD");
                 repSIs.put(strobjprid, obj.getData().str());
                 // COPSDebug.out(getClass().getName(),"PRID: " + strobjprid);
                 // COPSDebug.out(getClass().getName(),"EPD: " + obj.getData().str());
@@ -403,6 +345,7 @@ public class PCMMPdpReqStateMan {
             }
         }
 
+        System.out.println("rtypemsg process");
         //** Here we must act in accordance with
         //** the report received
         if (rtypemsg.isSuccess()) {
@@ -415,6 +358,7 @@ public class PCMMPdpReqStateMan {
             _status = ST_ACCT;
             _process.acctReport(this, gateMsg);
         }
+        System.out.println("Out processReport");
     }
 
     /**

@@ -296,7 +296,7 @@ public class PCMMPdpAgent extends COPSPdpAgent {
 
         COPSDebug.err(getClass().getName(), "PDPCOPSConnection");
         PCMMPdpConnection pdpConn = new PCMMPdpConnection(pepId, conn, _process);
-        pdpConn.setKaTimer((short)360); //getKaTimer());
+        pdpConn.setKaTimer(getKaTimer());
         if (getAcctTimer() != 0)
             pdpConn.setAccTimer(getAcctTimer());
 
