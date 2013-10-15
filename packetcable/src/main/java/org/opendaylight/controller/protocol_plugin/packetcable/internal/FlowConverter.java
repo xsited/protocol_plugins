@@ -229,8 +229,7 @@ public class FlowConverter {
 
 
     /**
-     * Returns the match in OF 1.0 (OFMatch) form or OF 1.0 + IPv6 extensions
-     * form (V6Match)
+     * Returns the match in Gate Control message
      *
      * @return
      */
@@ -258,6 +257,10 @@ public class FlowConverter {
             TrafficRate =   PCMMGlobalConfig.DefaultBestEffortTrafficRate;
         else
             TrafficRate =   PCMMGlobalConfig.DefaultLowBestEffortTrafficRate;
+
+        logger.info("FlowConverter Flow Id: {}", flow.getId());
+        logger.info("FlowConverter Priority: {}",pri);
+        logger.info("FlowConverter Traffic Rate: {}",TrafficRate);
 
         ITrafficProfile trafficProfile = new BestEffortService(
             (byte) 7); //BestEffortService.DEFAULT_ENVELOP);
@@ -307,6 +310,15 @@ public class FlowConverter {
         gateSpec.setTimerT2(PCMMGlobalConfig.GateT2);
         gateSpec.setTimerT3(PCMMGlobalConfig.GateT3);
         gateSpec.setTimerT4(PCMMGlobalConfig.GateT4);
+
+        try {
+            InetAddress subIP = InetAddress
+                            .getByName(PCMMGlobalConfig.SubscriberID);
+              subscriberID.setSourceIPAddress(subIP);
+        } catch (UnknownHostException unae) {
+            logger.error("Error getByName" + unae.getMessage());
+        }
+
 
 
         Match match = flow.getMatch();
@@ -417,7 +429,7 @@ public class FlowConverter {
             if (!isIPv6) {
                 int maskLength = (mask == null) ? 32 : NetUtils.getSubnetMaskLength(mask);
                 logger.info("Flow : Network Address Src : {} Mask : {}", address, mask);
-                classifier.setSourceIPAddress(address);
+                eclassifier.setSourceIPAddress(address);
                 if (mask == null)
                     eclassifier.setIPSourceMask(defaultmask);
                 else
@@ -440,7 +452,7 @@ public class FlowConverter {
             if (!isIPv6) {
                 int maskLength = (mask == null) ? 32 : NetUtils.getSubnetMaskLength(mask);
                 logger.info("Flow : Network Address Dst : {} Mask : {}", address, mask);
-                classifier.setDestinationIPAddress(address);
+                eclassifier.setDestinationIPAddress(address);
                 if (mask == null)
                     eclassifier.setIPDestinationMask(defaultmask);
                 else
@@ -477,6 +489,11 @@ public class FlowConverter {
         if (!isIPv6) {
         }
         logger.info("SAL Match: {} ", flow.getMatch());
+        eclassifier.setClassifierID((short) 0x01);
+/*
+        eclassifier.setClassifierID((short) (_classifierID == 0 ? Math
+                                             .random() * hashCode() : _classifierID));
+*/
         eclassifier.setAction((byte) 0x00);
         eclassifier.setActivationState((byte) 0x01);
         //gate.setTransactionID(trID);
