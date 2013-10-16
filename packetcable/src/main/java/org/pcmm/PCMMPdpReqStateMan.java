@@ -352,7 +352,7 @@ public class PCMMPdpReqStateMan {
         if (rtypemsg.isSuccess()) {
         System.out.println("rtypemsg success");
             _status = ST_REPORT;
-            if (_process == null)
+            if (_process != null)
             _process.successReport(this, gateMsg);
             else
 {
@@ -378,7 +378,7 @@ public class PCMMPdpReqStateMan {
         } else if (rtypemsg.isFailure()) {
         System.out.println("rtypemsg failure");
             _status = ST_REPORT;
-            if (_process == null)
+            if (_process != null)
             _process.failReport(this, gateMsg);
 else
 {
@@ -388,7 +388,7 @@ else
         } else if (rtypemsg.isAccounting()) {
         System.out.println("rtypemsg account");
             _status = ST_ACCT;
-            if (_process == null)
+            if (_process != null)
             _process.acctReport(this, gateMsg);
         }
         System.out.println("Out processReport");
