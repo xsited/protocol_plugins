@@ -29,12 +29,13 @@ import org.umu.cops.stack.COPSReqMsg;
 import org.umu.cops.stack.COPSSyncStateMsg;
 import org.umu.cops.prpdp.COPSPdpException;
 import org.umu.cops.prpdp.COPSPdpDataProcess;
+
+import org.pcmm.gates.ITransactionID;
 /*
 import org.pcmm.base.IPCMMBaseObject;
 import org.pcmm.gates.IAMID;
 import org.pcmm.gates.IGateID;
 import org.pcmm.gates.ISubscriberID;
-import org.pcmm.gates.ITransactionID;
 import org.pcmm.gates.IPCError;
 import org.pcmm.gates.impl.AMID;
 import org.pcmm.gates.impl.GateID;
@@ -349,13 +350,45 @@ public class PCMMPdpReqStateMan {
         //** Here we must act in accordance with
         //** the report received
         if (rtypemsg.isSuccess()) {
+        System.out.println("rtypemsg success");
             _status = ST_REPORT;
+            if (_process == null)
             _process.successReport(this, gateMsg);
+            else
+{
+       if ( gateMsg.getTransactionID().getGateCommandType() == ITransactionID.GateDeleteAck ) {
+            System.out.println(getClass().getName()+ ": GateDeleteAck ");
+            System.out.println(getClass().getName()+ ": GateID = " + gateMsg.getGateID().getGateID());
+            if (gateMsg.getGateID().getGateID() == PCMMGlobalConfig.getGateID1())
+                PCMMGlobalConfig.setGateID1(0);
+            if (gateMsg.getGateID().getGateID() == PCMMGlobalConfig.getGateID2())
+                PCMMGlobalConfig.setGateID2(0);
+
+        }
+        if ( gateMsg.getTransactionID().getGateCommandType() == ITransactionID.GateSetAck ) {
+            System.out.println(getClass().getName()+ ": GateSetAck ");
+            System.out.println(getClass().getName()+ ": GateID = " + gateMsg.getGateID().getGateID());
+            if (0 == PCMMGlobalConfig.getGateID1())
+                PCMMGlobalConfig.setGateID1(gateMsg.getGateID().getGateID());
+            if (0 == PCMMGlobalConfig.getGateID2())
+                PCMMGlobalConfig.setGateID2(gateMsg.getGateID().getGateID());
+        }
+
+}
         } else if (rtypemsg.isFailure()) {
+        System.out.println("rtypemsg failure");
             _status = ST_REPORT;
+            if (_process == null)
             _process.failReport(this, gateMsg);
+else
+{
+        System.out.println(getClass().getName()+ ": " + gateMsg.getError().toString());
+}
+
         } else if (rtypemsg.isAccounting()) {
+        System.out.println("rtypemsg account");
             _status = ST_ACCT;
+            if (_process == null)
             _process.acctReport(this, gateMsg);
         }
         System.out.println("Out processReport");
