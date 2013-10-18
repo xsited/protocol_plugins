@@ -401,14 +401,14 @@ public class FlowConverter {
                 logger.info("Flow : Network Protocol : {}", proto);
                 switch (proto) {
                 case 6:
-                    classifier.setProtocol(IClassifier.Protocol.TCP);
+                    eclassifier.setProtocol(IClassifier.Protocol.TCP);
                     break;
                 case 17:
-                    classifier.setProtocol(IClassifier.Protocol.UDP);
+                    eclassifier.setProtocol(IClassifier.Protocol.UDP);
                     break;
                 case 0:
                 default:
-                    classifier.setProtocol(IClassifier.Protocol.NONE);
+                    eclassifier.setProtocol(IClassifier.Protocol.NONE);
                     break;
                 }
             } else {
@@ -434,6 +434,7 @@ public class FlowConverter {
                     eclassifier.setIPSourceMask(defaultmask);
                 else
                     eclassifier.setIPSourceMask(mask);
+                //eclassifier.setIPSourceMask(defaultmask);
             } else {
                 logger.info("Flow V6 : Network Address Src : {} Mask : {}", address, mask);
 
@@ -457,6 +458,7 @@ public class FlowConverter {
                     eclassifier.setIPDestinationMask(defaultmask);
                 else
                     eclassifier.setIPDestinationMask(mask);
+                //eclassifier.setIPDestinationMask(defaultmask);
 
             } else {
                 logger.info("Flow V6 : Network Address Dst : {} Mask : {}", address, mask);
