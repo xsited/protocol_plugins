@@ -5,6 +5,10 @@ module packetcable-match-types
 
     import ietf-inet-types {prefix inet; }
 
+    revision "2014-01-20" {
+        description "Initial revision of packetcable match types";
+    }        
+    
 
     grouping "ip-match-fields" {
         leaf ip-protocol {
