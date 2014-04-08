@@ -5,6 +5,7 @@
 
 package org.pcmm.rcd;
 
+import org.pcmm.concurrent.IWorker;
 import org.pcmm.state.IStateful;
 
 /**
@@ -68,8 +69,6 @@ import org.pcmm.state.IStateful;
  */
 public interface IPCMMServer extends IStateful {
 
-    final int DEFAULT_LISTENING_PORT = 3918;
-
     /**
      *
      */
@@ -86,7 +85,7 @@ public interface IPCMMServer extends IStateful {
      *
      *
      */
-    public static interface IPCMMClientHandler extends Runnable, IPCMMClient {
+    public static interface IPCMMClientHandler extends IWorker, IPCMMClient {
 
     }
 }

@@ -9,12 +9,15 @@ import java.io.*;
 import java.util.UUID.*;
 */
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-import java.util.Arrays;
 
+import org.pcmm.gates.ITransactionID;
+import org.pcmm.gates.impl.PCMMGateReq;
 import org.umu.cops.common.COPSDebug;
+import org.umu.cops.prpdp.COPSPdpException;
 import org.umu.cops.stack.COPSClientSI;
 import org.umu.cops.stack.COPSContext;
 import org.umu.cops.stack.COPSData;
@@ -27,10 +30,6 @@ import org.umu.cops.stack.COPSReportMsg;
 import org.umu.cops.stack.COPSReportType;
 import org.umu.cops.stack.COPSReqMsg;
 import org.umu.cops.stack.COPSSyncStateMsg;
-import org.umu.cops.prpdp.COPSPdpException;
-import org.umu.cops.prpdp.COPSPdpDataProcess;
-
-import org.pcmm.gates.ITransactionID;
 /*
 import org.pcmm.base.IPCMMBaseObject;
 import org.pcmm.gates.IAMID;
@@ -43,9 +42,6 @@ import org.pcmm.gates.impl.SubscriberID;
 import org.pcmm.gates.impl.TransactionID;
 import org.pcmm.gates.impl.PCError;
 */
-import org.pcmm.gates.IPCMMGate;
-import org.pcmm.gates.impl.PCMMGateReq;
-import org.pcmm.utils.PCMMUtils;
 
 
 

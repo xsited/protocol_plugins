@@ -81,6 +81,13 @@ public class COPSError extends COPSObjBase {
         _objHdr.setDataLength((short) 4);
     }
 
+    public short getErrCode() {
+		return _errCode;
+	}
+    
+    public short getErrSubCode() {
+		return _errSubCode;
+	}
     /**
      * Returns size in number of octects
      *

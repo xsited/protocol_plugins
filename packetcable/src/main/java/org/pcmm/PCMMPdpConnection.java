@@ -11,6 +11,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 import org.umu.cops.common.COPSDebug;
+import org.umu.cops.prpdp.COPSPdpException;
 import org.umu.cops.stack.COPSClientCloseMsg;
 import org.umu.cops.stack.COPSContext;
 import org.umu.cops.stack.COPSDeleteMsg;
@@ -24,8 +25,6 @@ import org.umu.cops.stack.COPSReportMsg;
 import org.umu.cops.stack.COPSReqMsg;
 import org.umu.cops.stack.COPSSyncStateMsg;
 import org.umu.cops.stack.COPSTransceiver;
-import org.umu.cops.prpdp.COPSPdpException;
-import org.umu.cops.prpdp.COPSPdpDataProcess;
 
 /**
  * Class for managing an provisioning connection at the PDP side.

@@ -10,7 +10,7 @@ import org.pcmm.gates.IAMID;
 import org.pcmm.gates.IClassifier;
 import org.pcmm.gates.IGateID;
 import org.pcmm.gates.IGateSpec;
-import org.pcmm.gates.IPCError;
+import org.pcmm.gates.IPCMMError;
 import org.pcmm.gates.IPCMMGate;
 import org.pcmm.gates.ISubscriberID;
 import org.pcmm.gates.ITrafficProfile;
@@ -27,7 +27,7 @@ public class PCMMGateReq implements IPCMMGate {
     private boolean multicast;
     private IGateID gateID;
     private IAMID iamid;
-    private IPCError error;
+    private IPCMMError error;
     private ISubscriberID subscriberID;
     private ITransactionID transactionID;
     private IGateSpec gateSpec;
@@ -71,8 +71,8 @@ public class PCMMGateReq implements IPCMMGate {
             case IClassifier.SNUM:
                 setClassifier(new Classifier(dataBuffer));
                 break;
-            case IPCError.SNUM:
-                error = new PCError(dataBuffer);
+            case IPCMMError.SNUM:
+                error = new PCMMError(dataBuffer);
                 break;
             default:
                 System.out.println("unhandled Object skept : S-NUM=" + sNum
@@ -227,11 +227,11 @@ public class PCMMGateReq implements IPCMMGate {
         return transactionID;
     }
 
-    public IPCError getError() {
+    public IPCMMError getError() {
         return error;
     }
 
-    public void setError(IPCError error) {
+    public void setError(IPCMMError error) {
         this.error = error;
     }
 

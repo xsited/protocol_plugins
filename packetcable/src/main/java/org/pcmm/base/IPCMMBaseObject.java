@@ -9,6 +9,11 @@ import java.net.Socket;
 
 import org.umu.cops.stack.COPSData;
 
+/**
+ * Base interface for all PCMM objects, it define the {@code S-Type},
+ * {@code S-Num} and the data length
+ * 
+ */
 public interface IPCMMBaseObject {
 
     /**
@@ -68,8 +73,8 @@ public interface IPCMMBaseObject {
      */
     COPSData getData();
 
-    void writeData(Socket id) throws IOException ;
+    void writeData(Socket id) throws IOException;
 
-    byte[] getAsBinaryArray();
+	byte[] getAsBinaryArray();
 
 }

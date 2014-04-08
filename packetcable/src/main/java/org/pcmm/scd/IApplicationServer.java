@@ -2,7 +2,6 @@
  @header@
  */
 
-
 package org.pcmm.scd;
 
 /**
@@ -25,9 +24,24 @@ package org.pcmm.scd;
  * may deny the request based upon additional Service Control Domain policies or
  * may pass the request on to the Policy Server.
  * </p>
- *
- *
+ * 
+ * 
  */
 public interface IApplicationServer {
+
+	/**
+	 * sets the Application Server's id
+	 * 
+	 * @param id
+	 *            : the id of the AS
+	 */
+	void setASId(String id);
+
+	/**
+	 * gets the AS id
+	 * 
+	 * @return AS id
+	 */
+	String getASId();
 
 }

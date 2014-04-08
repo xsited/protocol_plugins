@@ -8,13 +8,10 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
-import java.nio.ShortBuffer;
 
 import org.umu.cops.common.COPSDebug;
 import org.umu.cops.ospep.COPSPepException;
 import org.umu.cops.prpdp.COPSPdpAgent;
-import org.umu.cops.prpdp.COPSPdpConnection;
 import org.umu.cops.prpdp.COPSPdpException;
 import org.umu.cops.stack.COPSAcctTimer;
 import org.umu.cops.stack.COPSClientAcceptMsg;
@@ -22,18 +19,15 @@ import org.umu.cops.stack.COPSClientCloseMsg;
 import org.umu.cops.stack.COPSClientOpenMsg;
 import org.umu.cops.stack.COPSError;
 import org.umu.cops.stack.COPSException;
+import org.umu.cops.stack.COPSHandle;
 import org.umu.cops.stack.COPSHeader;
 import org.umu.cops.stack.COPSKATimer;
 import org.umu.cops.stack.COPSMsg;
 import org.umu.cops.stack.COPSPepId;
-import org.umu.cops.stack.COPSTransceiver;
-import org.umu.cops.stack.COPSHandle;
 import org.umu.cops.stack.COPSReqMsg;
-
+import org.umu.cops.stack.COPSTransceiver;
 // import org.umu.cops.prpdp.COPSPdpDataProcess;
-
 import org.pcmm.objects.MMVersionInfo;
-import org.pcmm.PCMMPdpDataProcess;
 
 
 /**

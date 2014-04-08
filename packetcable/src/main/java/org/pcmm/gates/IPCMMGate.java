@@ -77,7 +77,7 @@ public interface IPCMMGate {
 
     void setTransactionID(ITransactionID transactionID);
 
-    void setError(IPCError error);
+    void setError(IPCMMError error);
 
     ITransactionID getTransactionID();
 
@@ -128,7 +128,7 @@ public interface IPCMMGate {
     /**
      * The PacketCable Error object contains information on the type of error that has occurred.
      */
-    IPCError getError();
+    IPCMMError getError();
 
 
     /**

@@ -104,7 +104,7 @@ abstract public class COPSMsg {
     /** Checks the sanity of COPS message and throw an
          COPSBadDataException when data is bad.
     */
-    protected abstract void checkSanity()throws COPSException;
+    public abstract void checkSanity()throws COPSException;
 
     /**
      * Write an object textual description in the output stream

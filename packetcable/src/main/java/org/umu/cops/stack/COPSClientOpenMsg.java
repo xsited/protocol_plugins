@@ -145,7 +145,7 @@ public class COPSClientOpenMsg extends COPSMsg {
     /** Checks the sanity of COPS message and throw an
           * COPSBadDataException when data is bad.
     */
-    protected void checkSanity() throws COPSException {
+    public void checkSanity() throws COPSException {
         if ((_hdr == null) || (_pepId == null))
             throw new COPSException("Bad message format");
     }

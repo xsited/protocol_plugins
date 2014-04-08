@@ -8,7 +8,10 @@ import java.util.Properties;
 import org.umu.cops.stack.COPSMsg;
 
 /**
- *
+ * 
+ * Factory used to create {@code COPSMsg} based on message type input and a list
+ * of properties.
+ * 
  */
 public interface IMessageFactory {
 

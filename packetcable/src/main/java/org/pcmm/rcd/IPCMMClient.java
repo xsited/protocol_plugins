@@ -18,85 +18,80 @@ import org.umu.cops.stack.COPSMsg;
  * service, and does not (cannot) request QoS resources directly from the MSO
  * access network.
  * </p>
- *
- *
+ * 
+ * 
  */
 public interface IPCMMClient {
 
-    /**
-     * default port used by server to listen to clients
-     */
-    static final int DEFAULT_SERVER_PORT = 3918;
+	/**
+	 * PCMM client-type
+	 */
+	static final short CLIENT_TYPE = (short) 0x800A;
 
-    /**
-     * PCMM client-type
-     */
-    static final short CLIENT_TYPE = (short) 0x800A;
+	/**
+	 * sends a message to the server.
+	 * 
+	 * @param requestMessage
+	 *            request message.
+	 */
+	void sendRequest(COPSMsg requestMessage);
 
-    /**
-     * sends a message to the server.
-     *
-     * @param requestMessage
-     *            request message.
-     */
-    void sendRequest(COPSMsg requestMessage);
+	/**
+	 * Reads message from server
+	 * 
+	 * @return COPS message
+	 */
+	COPSMsg readMessage();
 
-    /**
-     * Reads message from server
-     *
-     * @return COPS message
-     */
-    COPSMsg readMessage();
+	/**
+	 * tries to connect to the server.
+	 * 
+	 * @param address
+	 *            server address
+	 * @param port
+	 *            server port
+	 * @return connection state
+	 */
+	boolean tryConnect(String address, int port);
 
-    /**
-     * tries to connect to the server.
-     *
-     * @param address
-     *            server address
-     * @param port
-     *            server port
-     * @return connection state
-     */
-    boolean tryConnect(String address, int port);
+	/**
+	 * tries to connect to the server.
+	 * 
+	 * @param address
+	 *            server address
+	 * @param port
+	 *            server port
+	 * @return connection state
+	 */
+	boolean tryConnect(InetAddress address, int port);
 
-    /**
-     * tries to connect to the server.
-     *
-     * @param address
-     *            server address
-     * @param port
-     *            server port
-     * @return connection state
-     */
-    boolean tryConnect(InetAddress address, int port);
+	/**
+	 * disconnects from server.
+	 * 
+	 * @return disconnection status.
+	 */
+	boolean disconnect();
 
-    /**
-     * disconnects from server.
-     *
-     * @return disconnection status.
-     */
-    boolean disconnect();
+	/**
+	 * 
+	 * @return whether the client is connected to the server of not.
+	 */
+	boolean isConnected();
 
-    /**
-     *
-     * @return whether the client is connected to the server of not.
-     */
-    boolean isConnected();
+	/**
+	 * gets the client handle
+	 * 
+	 * @return client handle
+	 */
+	String getClientHandle();
 
-    /**
-     * gets the client handle
-     *
-     * @return client handle
-     */
-    String getClientHandle();
-
-    /**
-     *
-     * sets the client handle
-     *
-     * @param handle
-     *            cleint hanlde
-     */
-    void setClientHandle(String handle);
+	/**
+	 * 
+	 * sets the client handle
+	 * 
+	 * @param handle
+	 *            cleint hanlde
+	 */
+	void setClientHandle(String handle);
 
 }

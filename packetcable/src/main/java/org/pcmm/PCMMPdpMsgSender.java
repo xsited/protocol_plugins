@@ -5,36 +5,14 @@
 package org.pcmm;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
-import org.umu.cops.stack.COPSContext;
-import org.umu.cops.stack.COPSData;
-import org.umu.cops.stack.COPSDecision;
-import org.umu.cops.stack.COPSDecisionMsg;
-import org.umu.cops.stack.COPSException;
-import org.umu.cops.stack.COPSHandle;
-import org.umu.cops.stack.COPSHeader;
-import org.umu.cops.stack.COPSPrEPD;
-import org.umu.cops.stack.COPSPrID;
-import org.umu.cops.stack.COPSClientSI;
-import org.umu.cops.stack.COPSObjHeader;
-import org.umu.cops.stack.COPSSyncStateMsg;
-import org.umu.cops.prpdp.COPSPdpException;
-
-//temp
-import org.umu.cops.stack.COPSReportMsg;
-import org.umu.cops.stack.COPSMsg;
-import org.umu.cops.stack.COPSTransceiver;
-
-//pcmm
-import org.pcmm.PCMMGlobalConfig;
 import org.pcmm.gates.IAMID;
 import org.pcmm.gates.IClassifier;
 import org.pcmm.gates.IExtendedClassifier;
+import org.pcmm.gates.IGateID;
 import org.pcmm.gates.IGateSpec;
 import org.pcmm.gates.IGateSpec.DSCPTOS;
 import org.pcmm.gates.IGateSpec.Direction;
@@ -42,21 +20,31 @@ import org.pcmm.gates.IPCMMGate;
 import org.pcmm.gates.ISubscriberID;
 import org.pcmm.gates.ITrafficProfile;
 import org.pcmm.gates.ITransactionID;
-import org.pcmm.gates.IGateID;
-import org.pcmm.gates.impl.GateID;
 import org.pcmm.gates.impl.AMID;
 import org.pcmm.gates.impl.BestEffortService;
 import org.pcmm.gates.impl.Classifier;
 import org.pcmm.gates.impl.ExtendedClassifier;
-import org.pcmm.gates.impl.DOCSISServiceClassNameTrafficProfile;
+import org.pcmm.gates.impl.GateID;
 import org.pcmm.gates.impl.GateSpec;
 import org.pcmm.gates.impl.PCMMGateReq;
 import org.pcmm.gates.impl.SubscriberID;
 import org.pcmm.gates.impl.TransactionID;
-import org.pcmm.messages.IMessage;
-import org.pcmm.messages.impl.MessageFactory;
-import org.pcmm.objects.MMVersionInfo;
-import org.pcmm.state.IState;
+import org.umu.cops.prpdp.COPSPdpException;
+import org.umu.cops.stack.COPSClientSI;
+import org.umu.cops.stack.COPSContext;
+import org.umu.cops.stack.COPSData;
+import org.umu.cops.stack.COPSDecision;
+import org.umu.cops.stack.COPSDecisionMsg;
+import org.umu.cops.stack.COPSException;
+import org.umu.cops.stack.COPSHandle;
+import org.umu.cops.stack.COPSHeader;
+import org.umu.cops.stack.COPSMsg;
+import org.umu.cops.stack.COPSObjHeader;
+//temp
+import org.umu.cops.stack.COPSReportMsg;
+import org.umu.cops.stack.COPSSyncStateMsg;
+import org.umu.cops.stack.COPSTransceiver;
+//pcmm
 /*
  * Example of an UNSOLICITED decision
  *

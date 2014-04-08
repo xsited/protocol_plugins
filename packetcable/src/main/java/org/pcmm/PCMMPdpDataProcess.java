@@ -4,18 +4,12 @@
 
 package org.pcmm;
 
-import java.util.Enumeration;
 import java.util.Hashtable;
 
+import org.pcmm.gates.ITransactionID;
+import org.pcmm.gates.impl.PCMMGateReq;
 // import org.umu.cops.prpdp.COPSPdpDataProcess;
 import org.umu.cops.stack.COPSError;
-import org.umu.cops.stack.COPSClientSI;
-import org.umu.cops.stack.COPSReportMsg;
-import org.pcmm.PCMMPdpReqStateMan;
-import org.pcmm.gates.IPCMMGate;
-import org.pcmm.gates.impl.PCMMGateReq;
-import org.pcmm.gates.ITransactionID;
-import org.pcmm.PCMMGlobalConfig;
 
 
 public class PCMMPdpDataProcess { // extends COPSPdpDataProcess
